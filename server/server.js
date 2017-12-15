@@ -7,7 +7,7 @@ var {Todo} = require('./models/todo');
 var {User} = require('./models/user');
 
 var app = express();
-const port = process.env.PORT || 8080;
+const port = process.env.PORT || 3000;
 
 app.use(bodyParser.json());
 
@@ -57,7 +57,7 @@ app.delete("/todos/:id", (req, res) => {
     if (!todo) {
       return res.status(404).send();
     }
-    res.send(todo);
+    res.send({todo});
 
   }).catch((e) => res.status(400).send());
 }); 
