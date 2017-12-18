@@ -80,9 +80,9 @@ describe('GET /todos/:id', () => {
     request(app)
       .get(`/todos/${todos[0]._id.toHexString()}`)
       .expect(200)
-      // .expect((res) => {
-      //   expect(res.body.todo.text).toBe(todos[0].text);
-      // })
+      .expect((res) => {
+        expect(res.body.todo.text).toBe(todos[0].text);
+      })
       .end(done);
   });
 
@@ -143,25 +143,6 @@ describe("DELETE /todos/:id", () => {
 });
 
 describe("PATCH /todos/:id", () => {
-  // it("should update todo", (done) => {
-  //   var id = todos[0]._id.toHexString();
-  //   var text =  "Updated First test todo";
-
-  //   request(app)
-  //     .patch(`/todos/${id}`)
-  //     .send({
-  //       completed: true,
-  //       text 
-  //     })
-  //     .expect(200)
-  //     .expect((res) => {
-  //       expect(res.body.todo.text).toBe(todo.text);
-  //       expect(res.body.todo.completed).toBe(todo.completed);
-  //       expect(res.body.todo.completedAt).toBeA("number");
-  //     })
-  //     .end(done);
-  // });
-
   it('should update the todo', (done) => {
     var hexId = todos[0]._id.toHexString();
     var text = 'This should be the new text';
