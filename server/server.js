@@ -96,6 +96,22 @@ app.patch('/todos/:id', (req, res) => {
   })
 });
 
+app.post('/users', (req, res) => {
+  var body = _.pick(req.body, ['email', 'password']);
+  var user = new User(body);
+
+  user.save().then(() => {
+    // return the generateAuthToken method added in the methods object from user.js. This enables promise chaining. 
+    return user.generateAuthToken();
+
+  }).then((token) => {
+    //send back the user from user.js and set the header
+    res.header('x-auth', token).send(user);
+  }).catch((e) => {
+    res.status(400).send(e);
+  })
+});
+
 app.listen(port, () => {
   console.log(`Started up at port ${port}`);
 });
