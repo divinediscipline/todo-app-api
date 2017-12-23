@@ -33,6 +33,7 @@ var UserSchema = new mongoose.Schema({
   }]
 });
 
+//Override the toJSON method so all of our documents can only return the _id and email field. Password should  be private
 UserSchema.methods.toJSON = function(){
   var user = this;
   var userObject = user.toObject();
@@ -71,7 +72,27 @@ UserSchema.statics.findByToken = function (token) {
     'tokens.access': 'auth'
   });
 };
+// add a findByCredentials method that can find a user by email and check the password
+UserSchema.statics.findByCredentials = function(email, password){
+  var User = this;
 
+  return User.findOne({email}).then((user) => {
+    if(!user){
+      return Promise.reject();
+    }
+    //wrap bcryt in a promise since it supports only callbacks
+    return new Promise((resolve, reject) => {
+      bcrypt.compare(password, user.password, (err, res) => {
+        if (res) {
+          resolve(user);
+        } else{
+
+          reject();
+        }
+      });
+    });
+  });
+};
 //hash the password before the 'save' event
 UserSchema.pre('save', function (next) {
   var user = this;
