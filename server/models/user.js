@@ -41,7 +41,7 @@ UserSchema.methods.toJSON = function(){
   return _.pick(userObject, ['_id', 'email']);
 };
 
-// add a generateAuthTokens method to the Schema that hashes the user id, access and salt
+// add a generateAuthTokens method to the Schema that hashes the user id, access and salt(All document instances will have this method available to them)
 UserSchema.methods.generateAuthToken = function() {
   var user = this;
   var access = 'auth';
@@ -82,7 +82,7 @@ UserSchema.statics.findByToken = function (token) {
     'tokens.access': 'auth'
   });
 };
-// add a findByCredentials method that can find a user by email and check the password
+// add a findByCredentials method that can find a user by email and check the password (The User model will have this method available to it)
 UserSchema.statics.findByCredentials = function(email, password){
   var User = this;
 
